@@ -4,15 +4,22 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var swig = require('swig');
+var sass = require('node-sass');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/tripplanner');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'mongodb connection error:'));
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+app.engine('html', swig.renderFile);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'html');
 
 app.use(favicon());
 app.use(logger('dev'));
@@ -26,10 +33,20 @@ app.use('/users', users);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  swig.setDefaults({cache: false});
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
+
+app.use(
+  sass.middleware({
+    src: __dirname + '/assets', //where the sass files are
+    dest: __dirname + '/public', //where css should go
+    // includePaths: __dirname + '/assets/stylesheets',
+    debug: true // obvious
+  })
+);
 
 /// error handlers
 
