@@ -5,7 +5,7 @@ db.on('error', console.error.bind(console, 'mongodb connection error:'));
 
 var Place,
     Hotel,
-    ThingToDo,
+    ThingsToDo,
     Restaurant;
 
 var Schema = mongoose.Schema;
@@ -31,13 +31,13 @@ hotelSchema.pre('save', function(next) {
     if (stars > 5) return 5;
     else if (stars < 1) return 1;
     return stars;
-  }
+  };
 
-  this.num_stars = cleanPrice(this.num_stars);
+  this.num_stars = cleanStars(this.num_stars);
   next();
 });
 
-var thingToDoSchema = new Schema ({
+var thingsToDoSchema = new Schema ({
   name: String,
   place: [placeSchema],
   age_range: String
@@ -56,7 +56,7 @@ restaurantSchema.pre('save', function(next) {
     if (price > 5) return 5;
     else if (price < 1) return 1;
     return price;
-  }
+  };
 
   this.price = cleanPrice(this.price);
   next();
@@ -64,12 +64,12 @@ restaurantSchema.pre('save', function(next) {
 
 Place       = mongoose.model('Place', placeSchema);
 Hotel       = mongoose.model('Hotel', hotelSchema);
-ThingToDo   = mongoose.model('ThingToDo', thingToDoSchema);
+ThingsToDo   = mongoose.model('ThingsToDo', thingsToDoSchema);
 Restaurant  = mongoose.model('Restaurant', restaurantSchema);
 
 module.exports = {
   'Place': Place,
   'Hotel': Hotel,
-  'ThingToDo': ThingToDo,
+  'ThingsToDo': ThingsToDo,
   'Restaurant': Restaurant
 };
