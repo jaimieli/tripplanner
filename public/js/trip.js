@@ -14,16 +14,30 @@ all_restaurants.forEach(function(cafe) {
 
 var $hotelAdd = $hotelSelect.parent().next().children();
 $hotelAdd.click( function (e) {
-  e.preventDefault()
-  console.log('hotel');
+  e.preventDefault();
+  var hotelVal = $hotelSelect.val(),
+      latLng,
+      hName;
+  all_hotels.forEach(function (hotelObj) {
+    if (hotelObj.name === hotelVal) {
+      latLng = hotelObj.place[0].location;
+      hName = hotelObj.name;
+    }
+  });
+  var gLatLng = new google.maps.LatLng(latLng[0],latLng[1]);
+  var marker = new google.maps.Marker({
+    position: gLatLng,
+    title: hName
+  });
+  marker.setMap(map);
 });
 var $thingAdd = $thingSelect.parent().next().children();
 $thingAdd.click( function (e) {
-  e.preventDefault()
+  e.preventDefault();
   console.log('thing');
 });
 var $cafeAdd = $restaurantSelect.parent().next().children();
 $cafeAdd.click( function (e) {
-  e.preventDefault()
+  e.preventDefault();
   console.log('cafe');
 });
