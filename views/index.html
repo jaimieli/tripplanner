@@ -142,6 +142,22 @@ all_restaurants.forEach(function(cafe) {
   $restaurantSelect.append("<option>" + cafe.name + "</option>");
 });
 
+var $hotelAdd = $hotelSelect.parent().next().children();
+$hotelAdd.click( function (e) {
+  e.preventDefault()
+  console.log('hotel');
+});
+var $thingAdd = $thingSelect.parent().next().children();
+$thingAdd.click( function (e) {
+  e.preventDefault()
+  console.log('thing');
+});
+var $cafeAdd = $restaurantSelect.parent().next().children();
+$cafeAdd.click( function (e) {
+  e.preventDefault()
+  console.log('cafe');
+});
+
 </script>
 
 <script src="/js/maps.js"></script>
