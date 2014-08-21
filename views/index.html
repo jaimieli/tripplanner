@@ -13,7 +13,7 @@
 
       <div class="col-md-4 col-sm-12 col-xs-12">
         <div class="btn-group">
-          <button type="button" class="btn btn-default active">Day 1</button>
+          <button type="button" class="btn btn-default">Day 1</button>
           <button type="button" class="btn btn-default">Day 2</button>
           <button type="button" class="btn btn-default">Day 3</button>
         </div>
@@ -30,9 +30,9 @@
 
                 <div class="col-xs-9">
                   <select name="hotel-menu" id="hotel-menu" class="form-control">
-                    <option value="Hotel 1">Hotel 1</option>
-                    <option value="Hotel 2">Hotel 2</option>
-                    <option value="Hotel 3">Hotel 3</option>
+                    {% for hotel in hotels %}
+                    <option value="{{hotel.name}}">{{hotel.name}}</option>
+                    {% endfor %}
                   </select>
                 </div>
 
@@ -51,9 +51,9 @@
 
                 <div class="col-xs-9">
                   <select name="things-menu" id="things-menu" class="form-control">
-                    <option value="Thing 1">Thing 1</option>
-                    <option value="Thing 2">Thing 2</option>
-                    <option value="Thing 3">Thing 3</option>
+                    {% for thing in thingsToDo %}
+                    <option value="{{thing.name}}">{{thing.name}}</option>
+                    {% endfor %}
                   </select>
                 </div>
 
@@ -72,9 +72,9 @@
 
                 <div class="col-xs-9">
                   <select name="restaurant-menu" id="restaurant-menu" class="form-control">
-                    <option value="Restaurant 1">Restaurant 1</option>
-                    <option value="Restaurant 2">Restaurant 2</option>
-                    <option value="Restaurant 3">Restaurant 3</option>
+                    {% for restaurant in restaurants %}
+                    <option value="{{restaurant.name}}">{{restaurant.name}}</option>
+                    {% endfor %}
                   </select>
                 </div>
 
