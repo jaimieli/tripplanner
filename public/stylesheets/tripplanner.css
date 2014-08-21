@@ -1,5 +1,9 @@
 .navbar {
   border-radius: 0; }
 
+body form.tp-form .col-xs-9 {
+  padding-right: 0; }
+body form.tp-form .col-xs-3 {
+  padding-left: 5px; }
 body form.tp-form label {
   font-size: 2.25 em; }
