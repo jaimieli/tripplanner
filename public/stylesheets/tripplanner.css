@@ -1,2 +1,5 @@
 .navbar {
   border-radius: 0; }
+
+body form.tp-form label {
+  font-size: 2.25 em; }
