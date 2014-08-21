@@ -16,7 +16,7 @@ var map = new google.maps.Map(map_canvas_obj, mapOptions);
 // Add the marker to the map
 var marker = new google.maps.Marker({
   position: myLatlng,
-  title:"Hello World!"
+  title:"Fullstack"
 });
 
 // Add the marker to the map by calling setMap()

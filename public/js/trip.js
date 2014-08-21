@@ -31,13 +31,43 @@ $hotelAdd.click( function (e) {
   });
   marker.setMap(map);
 });
+
 var $thingAdd = $thingSelect.parent().next().children();
 $thingAdd.click( function (e) {
   e.preventDefault();
-  console.log('thing');
+  var thingVal = $thingSelect.val(),
+      latLng,
+      tName;
+  all_things_to_do.forEach(function (thingObj) {
+    if (thingObj.name === thingVal) {
+      latLng = thingObj.place[0].location;
+      tName = thingObj.name;
+    }
+  });
+  var gLatLng = new google.maps.LatLng(latLng[0],latLng[1]);
+  var marker = new google.maps.Marker({
+    position: gLatLng,
+    title: tName
+  });
+  marker.setMap(map);
 });
+
 var $cafeAdd = $restaurantSelect.parent().next().children();
 $cafeAdd.click( function (e) {
   e.preventDefault();
-  console.log('cafe');
+  var restaurantVal = $restaurantSelect.val(),
+      latLng,
+      rName;
+  all_restaurants.forEach(function (restaurantObj) {
+    if (restaurantObj.name === restaurantVal) {
+      latLng = restaurantObj.place[0].location;
+      rName = restaurantObj.name;
+    }
+  });
+  var gLatLng = new google.maps.LatLng(latLng[0],latLng[1]);
+  var marker = new google.maps.Marker({
+    position: gLatLng,
+    title: rName
+  });
+  marker.setMap(map);
 });
