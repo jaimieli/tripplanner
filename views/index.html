@@ -1,6 +1,13 @@
 {% extends "layout.html" %}
 
+{% block headContent %}
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3QHzfFYPUfeiehgnVZaWqFUYQ3cPnNX8&sensor=true"></script>
+
+{% endblock %}
+
 {% block content %}
+
   <div class="container">
     <div class="row">
 
@@ -115,8 +122,8 @@
       </div>
 
       <div class="col-md-9 col-sm-8 col-xs-12">
-        <img src="http://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284" id="mapView">
-        </img>
+        <div id="mapView"></div>
+        <!-- <img src="http://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284" id="mapView"></img> -->
       </div>
 
     </div>
@@ -129,6 +136,37 @@
   var all_restaurants = {{ restaurants | json }};
   var all_things_to_do = {{ thingsToDo | json }};
 {% endautoescape %}
+
+function initialize_gmaps() {
+  // initialize new google maps LatLng object
+  var myLatlng = new google.maps.LatLng(40.705786,-74.007672);
+
+  // set the map options hash
+  var mapOptions = {
+    center: myLatlng,
+    zoom: 16,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  // get the maps div's HTML obj
+  var map_canvas_obj = document.getElementById("mapView");
+
+  // initialize a new Google Map with the options
+  var map = new google.maps.Map(map_canvas_obj, mapOptions);
+
+  // Add the marker to the map
+  var marker = new google.maps.Marker({
+    position: myLatlng,
+    title:"Hello World!"
+  });
+
+  // Add the marker to the map by calling setMap()
+  marker.setMap(map);
+};
+
+$(document).ready(function() {
+  initialize_gmaps();
+});
 
 </script>
 {% endblock %}

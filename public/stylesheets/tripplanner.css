@@ -10,4 +10,5 @@ body form.tp-form label {
 
 #mapView {
   width: 100%;
-  padding-top: 50px; }
+  height: 500px;
+  margin-top: 50px; }
