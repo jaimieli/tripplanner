@@ -30,9 +30,6 @@
 
                 <div class="col-xs-9">
                   <select name="hotel-menu" id="hotel-menu" class="form-control">
-                    {% for hotel in hotels %}
-                    <option value="{{hotel.name}}">{{hotel.name}}</option>
-                    {% endfor %}
                   </select>
                 </div>
 
@@ -51,9 +48,6 @@
 
                 <div class="col-xs-9">
                   <select name="things-menu" id="things-menu" class="form-control">
-                    {% for thing in thingsToDo %}
-                    <option value="{{thing.name}}">{{thing.name}}</option>
-                    {% endfor %}
                   </select>
                 </div>
 
@@ -72,9 +66,6 @@
 
                 <div class="col-xs-9">
                   <select name="restaurant-menu" id="restaurant-menu" class="form-control">
-                    {% for restaurant in restaurants %}
-                    <option value="{{restaurant.name}}">{{restaurant.name}}</option>
-                    {% endfor %}
                   </select>
                 </div>
 
@@ -130,11 +121,27 @@
   </div>
 
 <script>
+
 {% autoescape false %}
   var all_hotels = {{ hotels | json }};
   var all_restaurants = {{ restaurants | json }};
   var all_things_to_do = {{ thingsToDo | json }};
 {% endautoescape %}
+
+var $hotelSelect = $("#hotel-menu");
+var $thingSelect = $("#things-menu");
+var $restaurantSelect = $("#restaurant-menu");
+
+all_hotels.forEach(function(hotel) {
+  $hotelSelect.append("<option>" + hotel.name + "</option>");
+});
+all_things_to_do.forEach(function(thing) {
+  $thingSelect.append("<option>" + thing.name + "</option>");
+});
+all_restaurants.forEach(function(cafe) {
+  $restaurantSelect.append("<option>" + cafe.name + "</option>");
+});
+
 </script>
 
 <script src="/js/maps.js"></script>
