@@ -1,8 +1,18 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>{{title}}</h1>
-    <p>Welcome to {{title}}</p>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12"><p>Days</p></div>
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><p>Hotels</p></div>
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><p>Things</p></div>
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12"><p>Restaurants</p></div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">Plan</div>
+      <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">Map</div>
+    </div>
+  </div>
 {% endblock %}
 
 <script>

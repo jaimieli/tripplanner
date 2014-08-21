@@ -27,15 +27,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 
-
-console.log({
-    src: __dirname + '/assets', //where the sass files are
-    dest: __dirname + '/public/stylesheets', //where css should go
-    // includePaths: __dirname + '/assets/stylesheets',
-    debug: true // obvious
-  })
-
-
 app.use(
   sass.middleware({
     src: __dirname + '/assets', //where the sass files are
@@ -46,6 +37,7 @@ app.use(
 );
 
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 app.use('/', routes);
