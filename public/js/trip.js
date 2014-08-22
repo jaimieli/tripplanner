@@ -1,6 +1,9 @@
 var $hotelSelect = $("#hotel-menu");
 var $thingSelect = $("#things-menu");
 var $restaurantSelect = $("#restaurant-menu");
+var $dayHotel = $("#day-hotel");
+var $dayThings = $("#day-things");
+var $dayRestaurants = $("#day-restaurants");
 
 var findObj = function (name, db) {
   var obj;
@@ -41,6 +44,7 @@ $hotelAdd.click( function (e) {
   e.preventDefault();
   obj = findObj($hotelSelect.val(), all_hotels);
   addMarker(obj);
+  $dayHotel.append("<li>" + obj.name + "</li>");
 });
 
 var $thingAdd = $thingSelect.parent().next().children();
@@ -48,6 +52,7 @@ $thingAdd.click( function (e) {
   e.preventDefault();
   obj = findObj($thingSelect.val(), all_things_to_do);
   addMarker(obj);
+  $dayThings.append("<li>" + obj.name + "</li>");
 });
 
 var $cafeAdd = $restaurantSelect.parent().next().children();
@@ -55,4 +60,5 @@ $cafeAdd.click( function (e) {
   e.preventDefault();
   obj = findObj($restaurantSelect.val(), all_restaurants);
   addMarker(obj);
+  $dayRestaurants.append("<li>" + obj.name + "</li>");
 });
