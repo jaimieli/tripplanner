@@ -43,17 +43,19 @@ var findMarkerIndex = function (title) {
   return null;
 };
 
-var addMarker = function (obj) {
+var addMarker = function (obj, color) {
   var latLng,
       name,
       gLatLng,
       marker;
+  color = color || 'red';
   latLng  = obj.place[0].location;
   name    = obj.name;
   gLatLng = new google.maps.LatLng(latLng[0],latLng[1]);
   marker  = new google.maps.Marker({
     position: gLatLng,
-    title: name
+    title: name,
+    icon: 'http://maps.google.com/mapfiles/ms/icons/' + color + '-dot.png'
   });
   markers.push(marker);
   marker.setMap(map);
@@ -87,16 +89,19 @@ $hotelAdd.click( function (e) {
   } else {
     $dayHotel.append("<li>" + hotelObj.name + "</li>");
   }
-  addMarker(hotelObj);
+  addMarker(hotelObj, 'blue');
   currentDay.hotel = hotelObj.name;
 });
 
 var $thingAdd = $thingSelect.parent().next().children();
 $thingAdd.click( function (e) {
   e.preventDefault();
-  obj = findObj($thingSelect.val(), all_things_to_do);
-  addMarker(obj);
-  $dayThings.append("<li>" + obj.name + "</li>");
+  if (currentDay.things.indexOf( $thingSelect.val() ) === -1) {
+    obj = findObj($thingSelect.val(), all_things_to_do);
+    addMarker(obj, 'yellow');
+    $dayThings.append("<li>" + obj.name + "</li>");
+    currentDay.things.push(obj.name);
+  }
 });
 
 var $cafeAdd = $restaurantSelect.parent().next().children();
@@ -112,5 +117,5 @@ $cafeAdd.click( function (e) {
     currentDay.restaurants.shift();
   }
   $dayRestaurants.append("<li>" + obj.name + "</li>");
-  addMarker(obj);
+  addMarker(obj, 'green');
 });
