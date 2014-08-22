@@ -18,7 +18,7 @@ var addDay = function addDay () {
     restaurants: []
   });
   $daysList.append('<button type="button" class="btn btn-default btn-day" value="' + days.length + '">Day ' + days.length + '</button>');
-  currentDay = days.length - 1;
+  currentDay = days[days.length - 1];
   $dayTitle.html('Plan for Day ' + days.length);
 };
 
@@ -83,13 +83,12 @@ $hotelAdd.click( function (e) {
     oldName = $dayHotel.children().html();
     markers[findMarkerIndex(oldName)].setMap(null);
     markers.splice( findMarkerIndex(oldName), 1 );
-    console.log('tried to delete ' + oldName);
     $dayHotel.children().html(hotelObj.name);
   } else {
     $dayHotel.append("<li>" + hotelObj.name + "</li>");
   }
   addMarker(hotelObj);
-  days[currentDay].hotel = hotelObj.name;
+  currentDay.hotel = hotelObj.name;
 });
 
 var $thingAdd = $thingSelect.parent().next().children();
@@ -104,6 +103,14 @@ var $cafeAdd = $restaurantSelect.parent().next().children();
 $cafeAdd.click( function (e) {
   e.preventDefault();
   obj = findObj($restaurantSelect.val(), all_restaurants);
-  addMarker(obj);
+  currentDay.restaurants.push(obj.name);
+  if ( $dayRestaurants.children().length > 2 ) {
+    oldName = currentDay.restaurants[0];
+    markers[findMarkerIndex(oldName)].setMap(null);
+    markers.splice( findMarkerIndex(oldName), 1 );
+    $dayRestaurants.children().first().remove();
+    currentDay.restaurants.shift();
+  }
   $dayRestaurants.append("<li>" + obj.name + "</li>");
+  addMarker(obj);
 });
