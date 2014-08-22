@@ -4,6 +4,20 @@ var $restaurantSelect = $("#restaurant-menu");
 var $dayHotel = $("#day-hotel");
 var $dayThings = $("#day-things");
 var $dayRestaurants = $("#day-restaurants");
+var $addDay = $("#addDay");
+var $daysList = $("#days-list");
+
+var days = [];
+var addDay = function addDay () {
+  days.push({
+    hotel: null,
+    things: [],
+    restaurants: []
+  });
+};
+var removeDay = function removeDay () {
+  days.pop();
+};
 
 var findObj = function (name, db) {
   var obj;
@@ -28,6 +42,12 @@ var addMarker = function (obj) {
   });
   marker.setMap(map);
 };
+
+$addDay.click( function (e) {
+  e.preventDefault();
+  addDay();
+  $daysList.append("<button type=\"button\" class=\"btn btn-default\">Day " + days.length + "</button>");
+});
 
 all_hotels.forEach(function(hotel) {
   $hotelSelect.append("<option>" + hotel.name + "</option>");
