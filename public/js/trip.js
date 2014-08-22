@@ -30,22 +30,18 @@ var removeDay = function removeDay () {
 };
 
 var findObj = function (name, db) {
-  var obj;
   for (var i = 0; i < db.length; i++) {
-    obj = db[i];
-    if (obj.name === name) return obj
+    if (db[i].name === name) return db[i];
   }
   return null;
 };
 
-var findMarker = function (title) {
-  var marker;
+var findMarkerIndex = function (title) {
   for (var i = 0; i < markers.length; i++) {
-    marker = markers[i];
-    if (marker.title === title) return marker;
+    if (markers[i].title === title) return i;
   }
   return null;
-}
+};
 
 var addMarker = function (obj) {
   var latLng,
@@ -80,17 +76,20 @@ all_restaurants.forEach(function(cafe) {
 
 var $hotelAdd = $hotelSelect.parent().next().children();
 $hotelAdd.click( function (e) {
+  var oldName;
   e.preventDefault();
-  obj = findObj($hotelSelect.val(), all_hotels);
-  addMarker(obj);
-  days[currentDay].hotel = obj.name;
+  hotelObj = findObj($hotelSelect.val(), all_hotels);
   if ( $dayHotel.children().length === 1 ) {
-    var oldHotel = $dayHotel.children().html();
-    findMarker(oldHotel).setMap(null);
-    $dayHotel.children().html(obj.name);
+    oldName = $dayHotel.children().html();
+    markers[findMarkerIndex(oldName)].setMap(null);
+    markers.splice( findMarkerIndex(oldName), 1 );
+    console.log('tried to delete ' + oldName);
+    $dayHotel.children().html(hotelObj.name);
   } else {
-    $dayHotel.append("<li>" + obj.name + "</li>");
+    $dayHotel.append("<li>" + hotelObj.name + "</li>");
   }
+  addMarker(hotelObj);
+  days[currentDay].hotel = hotelObj.name;
 });
 
 var $thingAdd = $thingSelect.parent().next().children();
