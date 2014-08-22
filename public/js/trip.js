@@ -1,31 +1,58 @@
+var $daysList = $('#days-list');
+var $addDay = $('#addDay');
+
 var $hotelSelect = $('#hotel-menu');
+var $hotelAdd = $hotelSelect.parent().next().children();
 var $thingSelect = $('#things-menu');
+var $thingAdd = $thingSelect.parent().next().children();
 var $restaurantSelect = $('#restaurant-menu');
+var $cafeAdd = $restaurantSelect.parent().next().children();
+
+var $dayTitle = $('#day-title');
 var $dayHotel = $('#day-hotel');
 var $dayThings = $('#day-things');
 var $dayRestaurants = $('#day-restaurants');
-var $addDay = $('#addDay');
-var $daysList = $('#days-list');
-var $dayTitle = $('#day-title');
 
 var markers = [];
 var days = [];
 var currentDay;
-var addDay = function addDay () {
+
+var setAllMap = function (map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
+
+var switchDay = function (dayTarget) {
+  $dayTitle.html('Plan for Day ' + Number(dayTarget + 1) );
+  $dayHotel.children().remove();
+  $dayThings.children().remove();
+  $dayRestaurants.children().remove();
+  setAllMap(null);
+  currentDay = days[dayTarget];
+};
+
+var addDay = function () {
+  var humanNum;
   days.push({
     hotel: null,
     things: [],
     restaurants: []
   });
-  $daysList.append('<button type="button" class="btn btn-default btn-day" value="' + days.length + '">Day ' + days.length + '</button>');
-  currentDay = days[days.length - 1];
-  $dayTitle.html('Plan for Day ' + days.length);
+  humanNum = days.length;
+  switchDay(days.length-1);
+  $daysList.append('<button type="button" class="btn btn-default btn-day" id="goToDay' + humanNum + '">Day ' + humanNum + '</button>');
+  $( '#goToDay' + humanNum ).click( function (e) {
+    e.preventDefault();
+    switchDay( Number(humanNum - 1) );
+    console.log( 'clicked go-to-' + humanNum );
+  });
 };
 
 // Initialize first day
 addDay();
 
-var removeDay = function removeDay () {
+var removeDay = function () {
   days.pop();
 };
 
@@ -76,7 +103,6 @@ all_restaurants.forEach(function(cafe) {
   $restaurantSelect.append("<option>" + cafe.name + "</option>");
 });
 
-var $hotelAdd = $hotelSelect.parent().next().children();
 $hotelAdd.click( function (e) {
   var oldName;
   e.preventDefault();
@@ -93,7 +119,6 @@ $hotelAdd.click( function (e) {
   currentDay.hotel = hotelObj.name;
 });
 
-var $thingAdd = $thingSelect.parent().next().children();
 $thingAdd.click( function (e) {
   e.preventDefault();
   if (currentDay.things.indexOf( $thingSelect.val() ) === -1) {
@@ -104,7 +129,6 @@ $thingAdd.click( function (e) {
   }
 });
 
-var $cafeAdd = $restaurantSelect.parent().next().children();
 $cafeAdd.click( function (e) {
   e.preventDefault();
   obj = findObj($restaurantSelect.val(), all_restaurants);
