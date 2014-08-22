@@ -2,6 +2,30 @@ var $hotelSelect = $("#hotel-menu");
 var $thingSelect = $("#things-menu");
 var $restaurantSelect = $("#restaurant-menu");
 
+var findObj = function (name, db) {
+  var obj;
+  for (var i = 0; i < db.length; i++) {
+    obj = db[i];
+    if (obj.name === name) return obj
+  }
+  return null;
+};
+
+var addMarker = function (obj) {
+  var latLng,
+      name,
+      gLatLng,
+      marker;
+  latLng  = obj.place[0].location;
+  name    = obj.name;
+  gLatLng = new google.maps.LatLng(latLng[0],latLng[1]);
+  marker  = new google.maps.Marker({
+    position: gLatLng,
+    title: name
+  });
+  marker.setMap(map);
+};
+
 all_hotels.forEach(function(hotel) {
   $hotelSelect.append("<option>" + hotel.name + "</option>");
 });
@@ -15,59 +39,20 @@ all_restaurants.forEach(function(cafe) {
 var $hotelAdd = $hotelSelect.parent().next().children();
 $hotelAdd.click( function (e) {
   e.preventDefault();
-  var hotelVal = $hotelSelect.val(),
-      latLng,
-      hName;
-  all_hotels.forEach(function (hotelObj) {
-    if (hotelObj.name === hotelVal) {
-      latLng = hotelObj.place[0].location;
-      hName = hotelObj.name;
-    }
-  });
-  var gLatLng = new google.maps.LatLng(latLng[0],latLng[1]);
-  var marker = new google.maps.Marker({
-    position: gLatLng,
-    title: hName
-  });
-  marker.setMap(map);
+  obj = findObj($hotelSelect.val(), all_hotels);
+  addMarker(obj);
 });
 
 var $thingAdd = $thingSelect.parent().next().children();
 $thingAdd.click( function (e) {
   e.preventDefault();
-  var thingVal = $thingSelect.val(),
-      latLng,
-      tName;
-  all_things_to_do.forEach(function (thingObj) {
-    if (thingObj.name === thingVal) {
-      latLng = thingObj.place[0].location;
-      tName = thingObj.name;
-    }
-  });
-  var gLatLng = new google.maps.LatLng(latLng[0],latLng[1]);
-  var marker = new google.maps.Marker({
-    position: gLatLng,
-    title: tName
-  });
-  marker.setMap(map);
+  obj = findObj($thingSelect.val(), all_things_to_do);
+  addMarker(obj);
 });
 
 var $cafeAdd = $restaurantSelect.parent().next().children();
 $cafeAdd.click( function (e) {
   e.preventDefault();
-  var restaurantVal = $restaurantSelect.val(),
-      latLng,
-      rName;
-  all_restaurants.forEach(function (restaurantObj) {
-    if (restaurantObj.name === restaurantVal) {
-      latLng = restaurantObj.place[0].location;
-      rName = restaurantObj.name;
-    }
-  });
-  var gLatLng = new google.maps.LatLng(latLng[0],latLng[1]);
-  var marker = new google.maps.Marker({
-    position: gLatLng,
-    title: rName
-  });
-  marker.setMap(map);
+  obj = findObj($restaurantSelect.val(), all_restaurants);
+  addMarker(obj);
 });
