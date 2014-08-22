@@ -16,6 +16,9 @@ var $dayRestaurants = $('#day-restaurants');
 var days = [];
 var currentDay;
 
+var scrubID = 0;
+var $remover;
+
 var setAllMap = function (map) {
   for (var i = 0; i < currentDay.markers.length; i++) {
     currentDay.markers[i].setMap(map);
@@ -53,7 +56,6 @@ var addDay = function () {
   $( '#goToDay' + humanNum ).click( function (e) {
     e.preventDefault();
     switchDay( Number(humanNum - 1) );
-    console.log( 'clicked go-to-' + humanNum );
   });
 };
 
@@ -96,6 +98,19 @@ var addMarker = function (obj, color) {
   marker.setMap(map);
 };
 
+var removeItem = function(name, type) {
+  console.log('Trying to delete '+ name + ' of ' + type);
+  currentDay.markers[findMarkerIndex(name)].setMap(null);
+  currentDay.markers.splice( findMarkerIndex(name), 1 );
+  if (type === 'hotel') {
+    currentDay.hotel = '';
+  } else if (type === 'thing') {
+    currentDay.things.splice(currentDay.things.indexOf(name), 1);
+  } else {
+    currentDay.restaurants.splice(currentDay.restaurants.indexOf(name), 1);
+  }
+};
+
 $addDay.click( function (e) {
   e.preventDefault();
   addDay();
@@ -113,6 +128,8 @@ all_restaurants.forEach(function(cafe) {
 
 $hotelAdd.click( function (e) {
   var oldName;
+  var $remover;
+  scrubID++;
   e.preventDefault();
   hotelObj = findObj($hotelSelect.val(), all_hotels);
   if ( $dayHotel.children().length === 1 ) {
@@ -121,7 +138,13 @@ $hotelAdd.click( function (e) {
     currentDay.markers.splice( findMarkerIndex(oldName), 1 );
     $dayHotel.children().html(hotelObj.name);
   } else {
-    $dayHotel.append("<li>" + hotelObj.name + "</li>");
+    $dayHotel.append('<li><button class="btn-remove" id="scrub' + scrubID + '">X</button><span>' +hotelObj.name + '</span></li>');
+    $('#scrub'+scrubID).click( function(e) {
+      e.preventDefault();
+      console.log('deleting ' + scrubID + ' id for ' + hotelObj.name);
+      removeItem(hotelObj.name, 'hotel');
+      $('#scrub'+scrubID).parent().remove();
+    });
   }
   addMarker(hotelObj, 'blue');
   currentDay.hotel = hotelObj.name;
@@ -129,16 +152,25 @@ $hotelAdd.click( function (e) {
 
 $thingAdd.click( function (e) {
   e.preventDefault();
+  scrubID++;
   if (currentDay.things.indexOf( $thingSelect.val() ) === -1) {
     obj = findObj($thingSelect.val(), all_things_to_do);
     addMarker(obj, 'yellow');
-    $dayThings.append("<li>" + obj.name + "</li>");
+    $dayThings.append('<li><button class="btn-remove" id="scrub' + scrubID + '">X</button><span>' +obj.name + '</span></li>');
+    $remover = $('#scrub'+scrubID);
+    $remover.click( function(e) {
+      console.log($remover);
+      e.preventDefault();
+      removeItem($remover.next().html(), 'thing');
+      $remover.parent().remove();
+    });
     currentDay.things.push(obj.name);
   }
 });
 
 $cafeAdd.click( function (e) {
   e.preventDefault();
+  scrubID++;
   obj = findObj($restaurantSelect.val(), all_restaurants);
   currentDay.restaurants.push(obj.name);
   if ( $dayRestaurants.children().length > 2 ) {
@@ -148,6 +180,11 @@ $cafeAdd.click( function (e) {
     $dayRestaurants.children().first().remove();
     currentDay.restaurants.shift();
   }
-  $dayRestaurants.append("<li>" + obj.name + "</li>");
+  $dayRestaurants.append('<li><button class="btn-remove" id="scrub' + scrubID + '">X</button><span>' +obj.name + '</span></li>');
+  $('#scrub'+scrubID).click( function(e) {
+    e.preventDefault();
+    removeItem(obj.name, 'restaurant');
+    $('#scrub'+scrubID).parent().remove();
+  });
   addMarker(obj, 'green');
 });
