@@ -13,13 +13,12 @@ var $dayHotel = $('#day-hotel');
 var $dayThings = $('#day-things');
 var $dayRestaurants = $('#day-restaurants');
 
-var markers = [];
 var days = [];
 var currentDay;
 
 var setAllMap = function (map) {
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(map);
+  for (var i = 0; i < currentDay.markers.length; i++) {
+    currentDay.markers[i].setMap(map);
   }
 };
 
@@ -28,7 +27,7 @@ var switchDay = function (dayTarget) {
   $dayHotel.children().remove();
   $dayThings.children().remove();
   $dayRestaurants.children().remove();
-  setAllMap(null);
+  if (currentDay) setAllMap(null);
   currentDay = days[dayTarget];
   currentDay.restaurants.forEach(function(el) {
     $dayRestaurants.append("<li>" + el + "</li>");
@@ -37,6 +36,7 @@ var switchDay = function (dayTarget) {
     $dayThings.append("<li>" + el + "</li>");
   });
   if(currentDay.hotel) $dayHotel.append("<li>" + currentDay.hotel + "</li>");
+  setAllMap(map);
 };
 
 var addDay = function () {
@@ -44,7 +44,8 @@ var addDay = function () {
   days.push({
     hotel: null,
     things: [],
-    restaurants: []
+    restaurants: [],
+    markers: []
   });
   humanNum = days.length;
   switchDay(days.length-1);
@@ -71,8 +72,8 @@ var findObj = function (name, db) {
 };
 
 var findMarkerIndex = function (title) {
-  for (var i = 0; i < markers.length; i++) {
-    if (markers[i].title === title) return i;
+  for (var i = 0; i < currentDay.markers.length; i++) {
+    if (currentDay.markers[i].title === title) return i;
   }
   return null;
 };
@@ -91,7 +92,7 @@ var addMarker = function (obj, color) {
     title: name,
     icon: 'http://maps.google.com/mapfiles/ms/icons/' + color + '-dot.png'
   });
-  markers.push(marker);
+  currentDay.markers.push(marker);
   marker.setMap(map);
 };
 
@@ -116,8 +117,8 @@ $hotelAdd.click( function (e) {
   hotelObj = findObj($hotelSelect.val(), all_hotels);
   if ( $dayHotel.children().length === 1 ) {
     oldName = $dayHotel.children().html();
-    markers[findMarkerIndex(oldName)].setMap(null);
-    markers.splice( findMarkerIndex(oldName), 1 );
+    currentDay.markers[findMarkerIndex(oldName)].setMap(null);
+    currentDay.markers.splice( findMarkerIndex(oldName), 1 );
     $dayHotel.children().html(hotelObj.name);
   } else {
     $dayHotel.append("<li>" + hotelObj.name + "</li>");
@@ -142,8 +143,8 @@ $cafeAdd.click( function (e) {
   currentDay.restaurants.push(obj.name);
   if ( $dayRestaurants.children().length > 2 ) {
     oldName = currentDay.restaurants[0];
-    markers[findMarkerIndex(oldName)].setMap(null);
-    markers.splice( findMarkerIndex(oldName), 1 );
+    currentDay.markers[findMarkerIndex(oldName)].setMap(null);
+    currentDay.markers.splice( findMarkerIndex(oldName), 1 );
     $dayRestaurants.children().first().remove();
     currentDay.restaurants.shift();
   }
