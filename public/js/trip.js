@@ -21,7 +21,7 @@ var setAllMap = function (map) {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(map);
   }
-}
+};
 
 var switchDay = function (dayTarget) {
   $dayTitle.html('Plan for Day ' + Number(dayTarget + 1) );
@@ -30,6 +30,13 @@ var switchDay = function (dayTarget) {
   $dayRestaurants.children().remove();
   setAllMap(null);
   currentDay = days[dayTarget];
+  currentDay.restaurants.forEach(function(el) {
+    $dayRestaurants.append("<li>" + el + "</li>");
+  });
+  currentDay.things.forEach(function(el) {
+    $dayThings.append("<li>" + el + "</li>");
+  });
+  if(currentDay.hotel) $dayHotel.append("<li>" + currentDay.hotel + "</li>");
 };
 
 var addDay = function () {
