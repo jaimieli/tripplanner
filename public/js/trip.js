@@ -6,13 +6,15 @@ var types = ['hotel', 'thing', 'restaurant'];
 var selectors = {};
 var currentDay;
 
-// Build selectors[] & DOM <option>s
+// Build selectors[] & DOM <option>s (must run above)
 types.forEach( function (type) {
   selectors[type] = $('#' + type + 'Select');
   data[type].forEach( function (activity) {
     selectors[type].append('<option value="' + activity._id + '">' + activity.name + '</option>');
   });
 });
+
+// FUNCTION DECLARATIONS
 
 // get hotel, thing, or restaurant object by id
 var findById = function (type, id) {
@@ -24,27 +26,6 @@ var findById = function (type, id) {
   return null;
 };
 
-// add click events to 'add' activity buttons
-$('.addToDay').on( 'click', function(e) {
-  e.preventDefault();
-  var type = $(this).attr('data-select');
-  var selection = $(selectors[type]);
-  var id = selection.val();
-
-  if (!currentDay) return alert('You need to select a day before adding activities');
-
-  if ( type === 'hotel' || (type === 'restaurant' &&
-                      currentDay[type].length === 3) ) {
-    currentDay[type].shift();
-  }
-  currentDay[type].push( findById(type,id) );
-  renderDayPanel();
-  putMarkersOnMap();
-});
-
-var days = [];
-var currentDay;
-
 // Day constructor with properties
 var Day = function() {
   this.dayNum     = days.length + 1;
@@ -53,6 +34,7 @@ var Day = function() {
   this.restaurant = [];
   this.markers    = [];
 };
+
 Day.prototype.addActivity = function(type, id) {
   // body...
 };
@@ -69,12 +51,6 @@ var addDay = function () {
     switchDay( Number(humanNum - 1) );
   });
 };
-
-// this is the button which calls addDay
-$addDay.click( function (e) {
-  e.preventDefault();
-  addDay();
-});
 
 // takes activity object and returns google API coordinates
 var getGLatLng = function(activity) {
@@ -167,6 +143,32 @@ var removeItem = function(name, type) {
     currentDay.restaurants.splice(currentDay.restaurants.indexOf(name), 1);
   }
 };
+
+// BIND HANDLERS & INSTANTIATE
+
+// adds click events to 'add' activity buttons
+$('.addToDay').on( 'click', function(e) {
+  e.preventDefault();
+  var type = $(this).attr('data-select');
+  var selection = $(selectors[type]);
+  var id = selection.val();
+
+  if (!currentDay) return alert('You need to select a day before adding activities');
+
+  if ( type === 'hotel' || (type === 'restaurant' &&
+                      currentDay[type].length === 3) ) {
+    currentDay[type].shift();
+  }
+  currentDay[type].push( findById(type,id) );
+  renderDayPanel();
+  putMarkersOnMap();
+});
+
+// adds click event to 'add day' button
+$addDay.click( function (e) {
+  e.preventDefault();
+  addDay();
+});
 
 // Instantiate the first day. :-)
 addDay();
