@@ -1,9 +1,9 @@
-var myLatlng = new google.maps.LatLng(40.705786,-74.007672);
+var myLatlng = new google.maps.LatLng(40.725786,-74);
 
 // set the map options hash
 var mapOptions = {
   center: myLatlng,
-  zoom: 15,
+  zoom: 13,
   mapTypeId: google.maps.MapTypeId.ROADMAP
 };
 

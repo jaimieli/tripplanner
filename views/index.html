@@ -22,16 +22,35 @@
 
           <div class="col-sm-4 col-xs-12">
             <form role="form" class="tp-form">
-              <label for="hotel-menu">Hotels</label>
+              <label for="hotelSelect">Hotels</label>
               <div class="row">
 
                 <div class="col-xs-9">
-                  <select name="hotel-menu" id="hotel-menu" class="form-control">
+                  <select name="hotelSelect" id="hotelSelect" class="form-control">
                   </select>
                 </div>
 
                 <div class="col-xs-3">
-                  <button type="submit" class="btn btn-primary">Add</button>
+                  <button type="submit" data-select="hotel" class="btn btn-primary addToDay">Add</button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+
+
+          <div class="col-sm-4 col-xs-12">
+            <form role="form" class="tp-form">
+              <label for="restaurantSelect">Restaurants</label>
+              <div class="row">
+
+                <div class="col-xs-9">
+                  <select name="restaurantSelect" id="restaurantSelect" class="form-control">
+                  </select>
+                </div>
+
+                <div class="col-xs-3">
+                  <button type="submit" data-select="restaurant" class="btn btn-primary addToDay">Add</button>
                 </div>
 
               </div>
@@ -40,34 +59,16 @@
 
           <div class="col-sm-4 col-xs-12">
             <form role="form" class="tp-form">
-              <label for="things-menu">Things to Do</label>
+              <label for="thingSelect">Things to Do</label>
               <div class="row">
 
                 <div class="col-xs-9">
-                  <select name="things-menu" id="things-menu" class="form-control">
+                  <select name="thingSelect" id="thingSelect" class="form-control">
                   </select>
                 </div>
 
                 <div class="col-xs-3">
-                  <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-
-              </div>
-            </form>
-          </div>
-
-          <div class="col-sm-4 col-xs-12">
-            <form role="form" class="tp-form">
-              <label for="restaurant-menu">Restaurants</label>
-              <div class="row">
-
-                <div class="col-xs-9">
-                  <select name="restaurant-menu" id="restaurant-menu" class="form-control">
-                  </select>
-                </div>
-
-                <div class="col-xs-3">
-                  <button type="submit" class="btn btn-primary">Add</button>
+                  <button type="submit" data-select="thing" class="btn btn-primary addToDay">Add</button>
                 </div>
 
               </div>
@@ -83,20 +84,20 @@
 
       <div class="col-md-3 col-sm-4 col-xs-12">
         <h2 id="day-title">Plan for Day X</h2>
-        <ul class="list-unstyled">
+        <ul class="list-unstyled" id="day-panel">
           <li>
             <h3>Hotel</h3>
             <ul id="day-hotel" class="list-unstyled">
             </ul>
           </li>
           <li>
-            <h3>Things to Do</h3>
-            <ul id="day-things" class="list-unstyled">
+            <h3>Restaurants</h3>
+            <ul id="day-restaurants" class="list-unstyled">
             </ul>
           </li>
           <li>
-            <h3>Restaurants</h3>
-            <ul id="day-restaurants" class="list-unstyled">
+            <h3>Things to Do</h3>
+            <ul id="day-things" class="list-unstyled">
             </ul>
           </li>
         </ul>
@@ -112,9 +113,11 @@
 
 <script>
   {% autoescape false %}
-    var all_hotels = {{ hotels | json }};
-    var all_restaurants = {{ restaurants | json }};
-    var all_things_to_do = {{ thingsToDo | json }};
+    var data = {
+      hotel: {{ hotels | json }},
+      thing: {{ thingsToDo | json }},
+      restaurant: {{ restaurants | json }}
+    }
   {% endautoescape %}
 </script>
 <script src="/js/maps.js"></script>
