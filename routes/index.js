@@ -28,10 +28,19 @@ var restaurantFinder = function(req, res, next) {
   });
 };
 
+var dayFinder = function(req, res, next) {
+  models.Day.find({}).populate('hotel restaurant thing').exec(function(err, days) {
+    if(err) return next(err);
+    res.locals.days = days;
+    next();
+  });
+};
+
 router.get('/', [
   hotelFinder,
   thingToDoFinder,
   restaurantFinder,
+  dayFinder,
   function(req, res, next) {
     res.render('index');
   }

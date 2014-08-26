@@ -32,8 +32,7 @@ var writeVisitToServer = function (dayId, type, activityId) {
   // successfully. the server's response to this request is passed into
   // this callback function as "responseData."
   var postCallback = function (responseData) {
-    console.log('added day');
-    console.log(responseData);
+    console.log('added activity to day ' + dayId);
   };
 
   // jQuery Ajax call
@@ -52,7 +51,7 @@ var findById = function (type, id) {
 
 // Day constructor with properties
 var Day = function() {
-  this.dayNum     = days.length + 1;
+  this._id        = days.length + 1;
   this.hotel      = [];
   this.thing      = [];
   this.restaurant = [];
@@ -188,7 +187,7 @@ $('.addToDay').on( 'click', function(e) {
   renderDayPanel();
   putMarkersOnMap();
 
-  writeVisitToServer(currentDay.dayNum, type, id);
+  writeVisitToServer(currentDay._id, type, id);
 });
 
 // adds click event to 'add day' button
