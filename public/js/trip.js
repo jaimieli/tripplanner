@@ -18,7 +18,7 @@ types.forEach( function (type) {
 
 // Ajax call function
 var newMongoDay = function () {
-  var num = days.length;
+  var num = data.day.length;
   $.post('/day/', {numDays: num});
 };
 
@@ -51,7 +51,7 @@ var findById = function (type, id) {
 
 // Day constructor with properties
 var Day = function() {
-  this._id        = days.length + 1;
+  this.dayNum     = days.length + 1;
   this.hotel      = [];
   this.thing      = [];
   this.restaurant = [];
@@ -66,9 +66,9 @@ Day.prototype.addActivity = function(type, id) {
 var addDay = function () {
   newMongoDay();
   var humanNum;
-  days.push( new Day() );
-  humanNum = days.length;
-  switchDay(days.length-1);
+  // days.push( new Day() );
+  humanNum = data.day.length;
+  switchDay(humanNum-1);
   $daysList.append('<button type="button" class="btn btn-default btn-day" id="goToDay' + humanNum + '">Day ' + humanNum + '</button>');
   $( '#goToDay' + humanNum ).click( function (e) {
     e.preventDefault();
@@ -141,7 +141,7 @@ var clearMap = function () {
 var switchDay = function (dayTarget) {
   $dayTitle.html('Plan for Day ' + Number(dayTarget + 1) );
   if (currentDay) clearMap();
-  currentDay = days[dayTarget];
+  currentDay = data.day[dayTarget];
   renderDayPanel();
   putMarkersOnMap();
 };
@@ -187,7 +187,7 @@ $('.addToDay').on( 'click', function(e) {
   renderDayPanel();
   putMarkersOnMap();
 
-  writeVisitToServer(currentDay._id, type, id);
+  writeVisitToServer(currentDay.dayNum, type, id);
 });
 
 // adds click event to 'add day' button

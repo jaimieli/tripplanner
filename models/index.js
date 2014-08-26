@@ -64,7 +64,7 @@ restaurantSchema.pre('save', function(next) {
 });
 
 var daySchema = new Schema({
-  _id: Number,
+  dayNum: Number,
   hotel: [{ type: Schema.Types.ObjectId, ref: 'Hotel' }],
   restaurant: [{ type: Schema.Types.ObjectId, ref: 'Restaurant' }],
   thing: [{ type: Schema.Types.ObjectId, ref: 'ThingsToDo' }]
