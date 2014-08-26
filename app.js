@@ -13,6 +13,7 @@ db.on('error', console.error.bind(console, 'mongodb connection error:'));
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var day = require('./routes/day');
 
 var app = express();
 app.engine('html', swig.renderFile);
@@ -42,6 +43,7 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/day', day);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -6,7 +6,8 @@ db.on('error', console.error.bind(console, 'mongodb connection error:'));
 var Place,
     Hotel,
     ThingsToDo,
-    Restaurant;
+    Restaurant,
+    Day;
 
 var Schema = mongoose.Schema;
 
@@ -62,14 +63,23 @@ restaurantSchema.pre('save', function(next) {
   next();
 });
 
+var daySchema = new Schema({
+  _id: Number,
+  hotel: [String],
+  restaurant: [String],
+  thing: [String]
+});
+
 Place       = mongoose.model('Place', placeSchema);
 Hotel       = mongoose.model('Hotel', hotelSchema);
-ThingsToDo   = mongoose.model('ThingsToDo', thingsToDoSchema);
+ThingsToDo  = mongoose.model('ThingsToDo', thingsToDoSchema);
 Restaurant  = mongoose.model('Restaurant', restaurantSchema);
+Day         = mongoose.model('Day', daySchema);
 
 module.exports = {
   'Place': Place,
   'Hotel': Hotel,
   'ThingsToDo': ThingsToDo,
-  'Restaurant': Restaurant
+  'Restaurant': Restaurant,
+  'Day': Day
 };

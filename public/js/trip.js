@@ -16,6 +16,30 @@ types.forEach( function (type) {
 
 // FUNCTION DECLARATIONS
 
+// Ajax call function
+var newMongoDay = function () {
+  var num = days.length;
+  $.post('/day/', {numDays: num});
+};
+
+var writeVisitToServer = function (dayId, type, activityId) {
+  var postData = {
+    activityId: activityId,
+    type: type
+  };
+
+  // the callback function below will be called if this request completes
+  // successfully. the server's response to this request is passed into
+  // this callback function as "responseData."
+  var postCallback = function (responseData) {
+    console.log('added day');
+    console.log(responseData);
+  };
+
+  // jQuery Ajax call
+  $.post( '/day/' + dayId + '/activity', postData, postCallback);
+};
+
 // get hotel, thing, or restaurant object by id
 var findById = function (type, id) {
   for (var i = 0; i < data[type].length; i++) {
@@ -41,6 +65,7 @@ Day.prototype.addActivity = function(type, id) {
 
 // pushes new Day, calls switchDay, appends button w/ click
 var addDay = function () {
+  newMongoDay();
   var humanNum;
   days.push( new Day() );
   humanNum = days.length;
@@ -162,6 +187,8 @@ $('.addToDay').on( 'click', function(e) {
   currentDay[type].push( findById(type,id) );
   renderDayPanel();
   putMarkersOnMap();
+
+  writeVisitToServer(currentDay.dayNum, type, id);
 });
 
 // adds click event to 'add day' button
