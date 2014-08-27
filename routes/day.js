@@ -7,11 +7,10 @@ router.get('/', function(req, res) {
 
 });
 
-/* POST: Creating a Day */
+/* POST: Creating a Day (now MVC) */
 router.post('/', function(req, res) {
-  var numDays = req.body.numDays;
-  var d = new models.Day({dayNum: Number(numDays) + 1 });
-  d.save(function(err,day) {
+  var newDay = new models.Day(req.body);
+  newDay.save( function(err, day) {
     if(err) return next(err);
     res.json(day);
   });

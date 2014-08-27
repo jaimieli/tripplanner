@@ -12,69 +12,14 @@
     <div class="row">
 
       <div class="col-md-4 col-sm-12 col-xs-12">
-        <div class="btn-group" id="days-list">
+        <div id="days-container">
+        <!-- populated by daysView -->
         </div>
-        <button type="button" class="btn btn-default" id="addDay">+ Add Day</button>
       </div>
 
       <div class="col-md-8">
-        <div class="row">
-
-          <div class="col-sm-4 col-xs-12">
-            <form role="form" class="tp-form">
-              <label for="hotelSelect">Hotels</label>
-              <div class="row">
-
-                <div class="col-xs-9">
-                  <select name="hotelSelect" id="hotelSelect" class="form-control">
-                  </select>
-                </div>
-
-                <div class="col-xs-3">
-                  <button type="submit" data-select="hotel" class="btn btn-primary addToDay">Add</button>
-                </div>
-
-              </div>
-            </form>
-          </div>
-
-
-          <div class="col-sm-4 col-xs-12">
-            <form role="form" class="tp-form">
-              <label for="restaurantSelect">Restaurants</label>
-              <div class="row">
-
-                <div class="col-xs-9">
-                  <select name="restaurantSelect" id="restaurantSelect" class="form-control">
-                  </select>
-                </div>
-
-                <div class="col-xs-3">
-                  <button type="submit" data-select="restaurant" class="btn btn-primary addToDay">Add</button>
-                </div>
-
-              </div>
-            </form>
-          </div>
-
-          <div class="col-sm-4 col-xs-12">
-            <form role="form" class="tp-form">
-              <label for="thingSelect">Things to Do</label>
-              <div class="row">
-
-                <div class="col-xs-9">
-                  <select name="thingSelect" id="thingSelect" class="form-control">
-                  </select>
-                </div>
-
-                <div class="col-xs-3">
-                  <button type="submit" data-select="thing" class="btn btn-primary addToDay">Add</button>
-                </div>
-
-              </div>
-            </form>
-          </div>
-
+        <div class="row top-row">
+          <!-- populated by ActivitiesView -->
         </div>
       </div>
 
@@ -82,25 +27,8 @@
 
     <div class="row">
 
-      <div class="col-md-3 col-sm-4 col-xs-12">
-        <h2 id="day-title">Plan for Day X</h2>
-        <ul class="list-unstyled" id="day-panel">
-          <li>
-            <h3>Hotel</h3>
-            <ul id="day-hotel" class="list-unstyled">
-            </ul>
-          </li>
-          <li>
-            <h3>Restaurants</h3>
-            <ul id="day-restaurants" class="list-unstyled">
-            </ul>
-          </li>
-          <li>
-            <h3>Things to Do</h3>
-            <ul id="day-things" class="list-unstyled">
-            </ul>
-          </li>
-        </ul>
+      <div class="col-md-3 col-sm-4 col-xs-12 day-view">
+      <!-- populated by DayView -->
       </div>
 
       <div class="col-md-9 col-sm-8 col-xs-12">
@@ -122,6 +50,21 @@
   {% endautoescape %}
 </script>
 <script src="/js/maps.js"></script>
-<script src="/js/trip.js"></script>
+<!-- <script src="/js/trip.js"></script> -->
+<script src="/js/models/activity.js"></script>
+<script src="/js/models/day.js"></script>
+<script src="/js/models/days.js"></script>
+<script src="/js/views/activity.js"></script>
+<script src="/js/views/activities.js"></script>
+<script src="/js/views/day.js"></script>
+<script src="/js/views/days.js"></script>
+<script src="/js/views/dayBtn.js"></script>
 
+<script>
+  var init = function () {
+    var daysView = new DaysView();
+  };
+
+  init();
+</script>
 {% endblock %}
